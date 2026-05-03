@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ForestCraft Survival</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════
+     START MENU
+═══════════════════════════════════════════════ -->
+<div id="start-menu" class="screen active">
+  <div class="menu-bg-canvas" id="menuBgCanvas"></div>
+  <div class="menu-overlay"></div>
+  <div class="menu-content">
+    <div class="game-logo">
+      <div class="logo-icon">🌲</div>
+      <h1 class="logo-title">ForestCraft</h1>
+      <p class="logo-sub">SURVIVAL</p>
+    </div>
+    <div class="menu-buttons">
+      <button class="btn-menu btn-primary" id="btnPlay">
+        <span class="btn-icon">▶</span> Play Game
+      </button>
+      <button class="btn-menu btn-secondary" id="btnSettings">
+        <span class="btn-icon">⚙</span> Settings
+      </button>
+      <button class="btn-menu btn-secondary" id="btnHowToPlay">
+        <span class="btn-icon">?</span> How To Play
+      </button>
+    </div>
+    <div class="menu-version">v1.0.0 — ForestCraft Survival</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     HOW TO PLAY SCREEN
+═══════════════════════════════════════════════ -->
+<div id="howtoplay-screen" class="screen">
+  <div class="menu-bg-canvas" id="menuBgCanvas2"></div>
+  <div class="menu-overlay"></div>
+  <div class="modal-panel">
+    <h2 class="modal-title">How To Play</h2>
+    <div class="controls-grid">
+      <div class="ctrl"><kbd>W A S D</kbd><span>Move</span></div>
+      <div class="ctrl"><kbd>Shift</kbd><span>Sprint</span></div>
+      <div class="ctrl"><kbd>Space</kbd><span>Jump</span></div>
+      <div class="ctrl"><kbd>Mouse</kbd><span>Look Around</span></div>
+      <div class="ctrl"><kbd>E</kbd><span>Collect Resource</span></div>
+      <div class="ctrl"><kbd>I</kbd><span>Inventory</span></div>
+      <div class="ctrl"><kbd>C</kbd><span>Crafting</span></div>
+      <div class="ctrl"><kbd>Esc</kbd><span>Pause</span></div>
+    </div>
+    <div class="tips-box">
+      <p>🍖 Collect <b>berries & mushrooms</b> to restore hunger</p>
+      <p>🪵 Chop <b>trees</b> (E) for wood, hit <b>rocks</b> for stone</p>
+      <p>🔥 Craft a <b>campfire</b> to survive the night</p>
+      <p>⚡ Rest near campfire to restore energy</p>
+      <p>🌙 Wolves appear at night — stay near fire!</p>
+    </div>
+    <button class="btn-menu btn-primary" id="btnBackFromHelp">← Back</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SETTINGS SCREEN
+═══════════════════════════════════════════════ -->
+<div id="settings-screen" class="screen">
+  <div class="menu-bg-canvas"></div>
+  <div class="menu-overlay"></div>
+  <div class="modal-panel">
+    <h2 class="modal-title">Settings</h2>
+    <div class="setting-row">
+      <label>Music Volume</label>
+      <input type="range" id="musicVol" min="0" max="100" value="40" class="slider" />
+    </div>
+    <div class="setting-row">
+      <label>SFX Volume</label>
+      <input type="range" id="sfxVol" min="0" max="100" value="70" class="slider" />
+    </div>
+    <div class="setting-row">
+      <label>Shadow Quality</label>
+      <select id="shadowQuality" class="select-input">
+        <option value="low">Low</option>
+        <option value="medium" selected>Medium</option>
+        <option value="high">High</option>
+      </select>
+    </div>
+    <div class="setting-row">
+      <label>FOV</label>
+      <input type="range" id="fovSlider" min="60" max="110" value="75" class="slider" />
+      <span id="fovValue">75</span>
+    </div>
+    <button class="btn-menu btn-primary" id="btnBackFromSettings">← Back</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     GAME CONTAINER
+═══════════════════════════════════════════════ -->
+<div id="game-screen" class="screen">
+  <canvas id="gameCanvas"></canvas>
+
+  <!-- HUD -->
+  <div id="hud">
+    <div class="hud-bars">
+      <div class="bar-row">
+        <span class="bar-icon">❤️</span>
+        <div class="bar-track"><div class="bar-fill" id="healthBar" style="width:100%"></div></div>
+        <span class="bar-val" id="healthVal">100</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-icon">🍖</span>
+        <div class="bar-track"><div class="bar-fill hunger" id="hungerBar" style="width:100%"></div></div>
+        <span class="bar-val" id="hungerVal">100</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-icon">⚡</span>
+        <div class="bar-track"><div class="bar-fill energy" id="energyBar" style="width:100%"></div></div>
+        <span class="bar-val" id="energyVal">100</span>
+      </div>
+    </div>
+
+    <!-- Mini info -->
+    <div class="hud-info">
+      <div id="dayNightIcon">☀️</div>
+      <div id="dayCounter">Day 1</div>
+    </div>
+
+    <!-- Crosshair -->
+    <div id="crosshair">
+      <div class="ch-line ch-h"></div>
+      <div class="ch-line ch-v"></div>
+    </div>
+
+    <!-- Interact prompt -->
+    <div id="interactPrompt" class="interact-prompt hidden">
+      <kbd>E</kbd> <span id="interactText">Collect</span>
+    </div>
+
+    <!-- Hotbar -->
+    <div id="hotbar">
+      <div class="hotbar-slots" id="hotbarSlots"></div>
+    </div>
+
+    <!-- Controls hint -->
+    <div id="controlsHint">
+      <span><kbd>I</kbd> Inventory</span>
+      <span><kbd>C</kbd> Craft</span>
+      <span><kbd>Esc</kbd> Pause</span>
+    </div>
+  </div>
+
+  <!-- ═══ INVENTORY PANEL ═══ -->
+  <div id="inventoryPanel" class="panel hidden">
+    <div class="panel-header">
+      <h3>🎒 Inventory</h3>
+      <button class="close-btn" id="closeInventory">✕</button>
+    </div>
+    <div class="inv-grid" id="invGrid"></div>
+    <div class="inv-info" id="invInfo">Select an item</div>
+  </div>
+
+  <!-- ═══ CRAFTING PANEL ═══ -->
+  <div id="craftingPanel" class="panel hidden">
+    <div class="panel-header">
+      <h3>⚒️ Crafting</h3>
+      <button class="close-btn" id="closeCrafting">✕</button>
+    </div>
+    <div class="craft-list" id="craftList"></div>
+  </div>
+
+  <!-- ═══ PAUSE MENU ═══ -->
+  <div id="pauseMenu" class="screen-overlay hidden">
+    <div class="pause-panel">
+      <h2 class="pause-title">⏸ PAUSED</h2>
+      <button class="btn-menu btn-primary" id="btnResume">▶ Resume</button>
+      <button class="btn-menu btn-secondary" id="btnPauseSettings">⚙ Settings</button>
+      <button class="btn-menu btn-danger" id="btnExitToMenu">🚪 Exit to Menu</button>
+    </div>
+  </div>
+
+  <!-- ═══ GAME OVER SCREEN ═══ -->
+  <div id="gameOverScreen" class="screen-overlay hidden">
+    <div class="gameover-panel">
+      <div class="go-skull">💀</div>
+      <h2 class="go-title">YOU DIED</h2>
+      <div class="go-stats" id="goStats"></div>
+      <button class="btn-menu btn-primary" id="btnRespawn">🔄 Respawn</button>
+      <button class="btn-menu btn-secondary" id="btnGoMenu">🏠 Main Menu</button>
+    </div>
+  </div>
+
+  <!-- Notification toast -->
+  <div id="toastContainer"></div>
+
+</div>
+
+<!-- Three.js CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
