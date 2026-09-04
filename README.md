@@ -1,5 +1,7 @@
 # ForestCraft — Survival (game-3D)
 
+![ForestCraft Gameplay](screenshot.png)
+
 ForestCraft is a lightweight browser-based 3D survival/demo game built with Three.js. Explore a low-poly forest, collect resources (wood, stone, berries, mushrooms), craft tools and campfires, and survive day/night cycles with roaming wolves at night.
 
 This repository contains a single-page web game (index.html) with JavaScript game logic (script.js) and styling (style.css).
